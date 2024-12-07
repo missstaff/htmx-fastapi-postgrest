@@ -5,9 +5,8 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from routes.app_routes import router as app_router
 from routes.auth_routes import router as auth_router
-from routes.user_routes import router as user_router
-
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -61,5 +60,5 @@ async def dashboard(request: Request) -> HTMLResponse:
     }
     return templates.TemplateResponse("index.html", context=context)
 
+app.include_router(app_router)
 app.include_router(auth_router, tags=["auth"], prefix="/auth")
-app.include_router(user_router)

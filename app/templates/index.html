@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar has-shadow is-primary">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <strong>My App</strong>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="/logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard Container -->
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Welcome to Your Dashboard!</h1>
+      <h2 class="subtitle">Post to the board below or check out updates from others.</h2>
+
+      <!-- Post Form -->
+      <div class="box">
+        <form id="postForm" hx-post="/post/create" hx-target="#postList" hx-swap="beforeend">
+          <div class="field">
+            <label class="label">Your Post</label>
+            <div class="control">
+              <textarea class="textarea" name="content" placeholder="What's on your mind?"></textarea>
+            </div>
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-link" type="submit">Post</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Post List -->
+      <div id="postList" class="box">
+        <h3 class="title is-4">Posts</h3>
+        <div id="posts">
+          <!-- Dynamic content will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="https://unpkg.com/htmx.org@2.0.3"
+  integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
+  crossorigin="anonymous"></script>
+<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+</body>
+</html>

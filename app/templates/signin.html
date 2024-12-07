@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="htmx-config" content='{"selfRequestsOnly":false}'>
+    <title>Login or Sign Up</title>
+
+    <!-- Load Bulma CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title has-text-centered mt-5">Welcome</h1>
+
+
+        <!-- Login Form -->
+        <form id="login-form" hx-post="http://127.0.0.1:8000/user/login"
+            hx-headers='{"Content-Type": "application/json"}' hx-trigger="submit" hx-ext="json-enc"
+            class="box">
+            <div class="field">
+                <label class="label" for="email-login">Email</label>
+                <div class="control">
+                    <input class="input" type="email" id="email-login" name="email" required
+                        placeholder="Enter your email">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="password-login">Password</label>
+                <div class="control">
+                    <input class="input" type="password" id="password-login" name="password" required
+                        placeholder="Enter your password">
+                </div>
+            </div>
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button class="button is-primary" type="submit">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Load Htmx JS -->
+    <script src="https://unpkg.com/htmx.org@2.0.3"
+    integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+</body>
+
+</html>

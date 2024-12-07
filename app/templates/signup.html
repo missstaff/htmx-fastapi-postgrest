@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Sign Up</title>
+
+    <!-- Load Bulma CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title has-text-centered mt-5">Signup</h1>
+
+        <!-- Signup Form -->
+        <form id="signup-form" hx-post="http://127.0.0.1:8000/user/create"
+            hx-headers='{"Content-Type": "application/json"}' hx-trigger="submit" hx-ext="json-enc"
+            class="box">
+            <div class="field">
+                <label class="label" for="name">Name</label>
+                <div class="control">
+                    <input class="input" type="text" id="name" name="name" required placeholder="Enter your name">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="display_name">Display Name</label>
+                <div class="control">
+                    <input class="input" type="text" id="display_name" name="display_name" required
+                        placeholder="Enter a display name">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="email">Email</label>
+                <div class="control">
+                    <input class="input" type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="password">Password</label>
+                <div class="control">
+                    <input class="input" type="password" id="password" name="password" required
+                        placeholder="Enter a password">
+                </div>
+            </div>
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button class="button is-primary" type="submit">Sign Up</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Load Htmx JS -->
+    <script src="https://unpkg.com/htmx.org@2.0.3"
+    integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+</body>
+
+</html>

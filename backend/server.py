@@ -33,6 +33,7 @@ async def setup_database():
                 name VARCHAR(100) NOT NULL,
                 display_name VARCHAR(100),
                 email VARCHAR(100) NOT NULL UNIQUE,
+                salt VARCHAR(255) NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );

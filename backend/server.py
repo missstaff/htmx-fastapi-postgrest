@@ -5,19 +5,23 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from routes.app_routes import router as app_router
 from routes.auth_routes import router as auth_router
-from routes.user_routes import router as user_router
+
 
 app = FastAPI()
+
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
+
 environment = os.getenv("APP_ENV", "local")
 dotenv_file = f".env.{environment}" 
 load_dotenv(dotenv_file)
-    
 DATABASE_URL = os.getenv("DATABASE_URL") 
+
+
 async def setup_database():
     try:
         conn = await asyncpg.connect(DATABASE_URL)
@@ -34,6 +38,7 @@ async def setup_database():
                 name VARCHAR(100) NOT NULL,
                 display_name VARCHAR(100),
                 email VARCHAR(100) NOT NULL UNIQUE,
+                salt VARCHAR(255) NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
@@ -61,5 +66,5 @@ async def dashboard(request: Request) -> HTMLResponse:
     }
     return templates.TemplateResponse("index.html", context=context)
 
+app.include_router(app_router)
 app.include_router(auth_router, tags=["auth"], prefix="/auth")
-app.include_router(user_router)

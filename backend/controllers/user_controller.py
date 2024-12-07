@@ -1,10 +1,11 @@
-import asyncpg
+
 import os
+import asyncpg
+import bcrypt
 from dotenv import load_dotenv
 from fastapi import HTTPException
 from models.user.user_login import UserLogin
-from models.user.user_hashed import UserCreateHashed, UserLoginHashed
-import bcrypt
+from models.user.user_hashed import UserCreateHashed
 
 environment = os.getenv("APP_ENV", "local")
 dotenv_file = f".env.{environment}" 
@@ -62,7 +63,7 @@ async def authenticate_user(user: UserLogin):
                         "message": "User authenticated successfully"
                     }
                 else:
-                    raise HTTPException(status_code=401, detail="User not found! Invalid email or password.")
+                    raise HTTPException(status_code=400, detail="Passwords do not match.")
         else:
             raise HTTPException(status_code=401, detail="User not found! Invalid email or password.")
     except Exception as e:

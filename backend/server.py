@@ -7,16 +7,21 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from routes.app_routes import router as app_router
 from routes.auth_routes import router as auth_router
+
+
 app = FastAPI()
+
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
+
 environment = os.getenv("APP_ENV", "local")
 dotenv_file = f".env.{environment}" 
 load_dotenv(dotenv_file)
-    
 DATABASE_URL = os.getenv("DATABASE_URL") 
+
+
 async def setup_database():
     try:
         conn = await asyncpg.connect(DATABASE_URL)

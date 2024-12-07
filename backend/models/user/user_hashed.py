@@ -6,7 +6,3 @@ class UserCreateHashed(BaseModel):
     email: str 
     salt: str
     hash_password: str
-
-class UserLoginHashed(BaseModel):
-    email: str
-    hash_password: str

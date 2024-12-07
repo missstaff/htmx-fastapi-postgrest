@@ -14,6 +14,7 @@ async def signup(request: Request) -> HTMLResponse:
     }
     return templates.TemplateResponse("signup.html", context=context)
 
+
 @router.get("/signin", response_class=HTMLResponse)
 async def signin(request: Request) -> HTMLResponse:
     context = {

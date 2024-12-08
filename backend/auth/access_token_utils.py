@@ -1,12 +1,10 @@
 import os
 from dotenv import load_dotenv
 import jwt
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
-environment = os.getenv("APP_ENV", "local")
-dotenv_file = f".env.{environment}" 
-load_dotenv(dotenv_file)
+load_dotenv(f".env.{os.getenv('APP_ENV', 'local')}")
 JWT_KEY = os.getenv("JWT_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
@@ -17,6 +15,6 @@ def verify_jwt_token(token: str) -> dict:
         payload = jwt.decode(token, JWT_KEY, algorithms=[ALGORITHM])
         return payload 
     except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token has expired")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
     except jwt.InvalidTokenError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Invalid token")

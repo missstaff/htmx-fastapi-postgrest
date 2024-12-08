@@ -5,13 +5,11 @@ import uuid
 import asyncpg
 import bcrypt
 from dotenv import load_dotenv
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from models.user.user_login import UserLogin
 from models.user.user_hashed import UserCreateHashed
 
-environment = os.getenv("APP_ENV", "local")
-dotenv_file = f".env.{environment}" 
-load_dotenv(dotenv_file)
+load_dotenv(f".env.{os.getenv('APP_ENV', 'local')}")
 
 DATABASE_URL = os.getenv("DATABASE_URL") 
 ALGORITHM = os.getenv("ALGORITHM")
@@ -38,15 +36,15 @@ async def create_user(user: UserCreateHashed):
                     "email": user.email,
                     "disabled": False
                 },
-                "status": 201,
+                "status": status.HTTP_201_CREATED,
                 "message": "User created successfully",
                 "access_token": token
             }
             return response
         else:
-            raise HTTPException(status_code=400, detail="User creation failed")
+            raise HTTPException(status.HTTP_400, detail="User creation failed")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Internal error: {str(e)}")
 
 
 async def authenticate_user(user: UserLogin):
@@ -69,14 +67,14 @@ async def authenticate_user(user: UserLogin):
                             "email": user_data["user_email"],
                             "disabled": user_data["user_disabled"]
                         },
-                        "status": 200,
+                        "status": status.HTTP_200_OK,
                         "message": "User authenticated successfully",
                         "access_token": token
                     }
                     return response
                 else:
-                    raise HTTPException(status_code=400, detail="Passwords do not match.")
+                    raise HTTPException(status.HTTP_400_BAD_REQUEST, detail="Passwords do not match.")
         else:
-            raise HTTPException(status_code=401, detail="User not found! Invalid email or password.")
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="User not found! Invalid email or password.")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Internal error: {str(e)}")

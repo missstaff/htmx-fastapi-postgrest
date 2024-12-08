@@ -1,15 +1,12 @@
 import os
-from dotenv import load_dotenv
 import uvicorn
-
+from dotenv import load_dotenv
 
 if __name__ == "__main__":
     host = "0.0.0.0" 
     port = 8000
 
-    environment = os.getenv("APP_ENV", "local")
-    dotenv_file = f".env.{environment}" 
-    load_dotenv(dotenv_file)
+    load_dotenv(f".env.{os.getenv('APP_ENV', 'local')}")
     environment = os.getenv("APP_ENV", "local") 
 
     if environment == "production":

@@ -26,7 +26,7 @@ class UserCreate(BaseModel):
     
     @validator("display_name", pre=True, always=True)
     def validate_display_name(cls, value):
-        if value is None or not value.strip():  # Check for None first
+        if value is None or not value.strip():  
             raise ValueError("Display name must not be empty.")
         return value
 

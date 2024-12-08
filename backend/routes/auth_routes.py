@@ -13,9 +13,7 @@ from controllers.user_controller import authenticate_user, create_user
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
-environment = os.getenv("APP_ENV", "local")
-dotenv_file = f".env.{environment}" 
-load_dotenv(dotenv_file)
+load_dotenv(f".env.{os.getenv('APP_ENV', 'local')}")
 EXPIRATION_TIME = os.getenv("EXPIRATION_TIME")
 
 @router.post("/user/create", response_class=HTMLResponse)

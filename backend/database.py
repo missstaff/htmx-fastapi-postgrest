@@ -1,6 +1,6 @@
-import asyncpg
-from fastapi import HTTPException
 import os
+import asyncpg
+from fastapi import HTTPException, status
 from dotenv import load_dotenv
 
 load_dotenv(f".env.{os.getenv('APP_ENV', 'local')}")
@@ -11,7 +11,7 @@ async def connect_to_db():
         conn = await asyncpg.connect(DATABASE_URL)
         return conn
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Database connection failed: {str(e)}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database connection failed: {str(e)}")
 
 async def setup_database():
     conn = await connect_to_db()

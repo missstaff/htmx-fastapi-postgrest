@@ -1,10 +1,10 @@
 import os
-import asyncpg
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse
+from fastapi import Depends, FastAPI, HTTPException, Request, status
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from auth.access_token_utils import verify_jwt_token
 from database import setup_database
 from routes.app_routes import router as app_router
 from routes.auth_routes import router as auth_router
@@ -36,10 +36,21 @@ async def shutdown_event():
 @app.get("/", response_class=HTMLResponse)
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request) -> HTMLResponse:
-    context = {
-        "request": request,
-    }
-    return templates.TemplateResponse("index.html", context=context)
+ 
+    access_token = request.cookies.get("access_token")
+    
+    if access_token:
+        user_data = verify_jwt_token(access_token)
+        if user_data:
+            context = {
+                "request": request,
+                "user": user_data
+            }
+            return templates.TemplateResponse("index.html", context=context)
+        else:
+            return RedirectResponse("/signin", status.HTTP_303_SEE_OTHER)
+    else:
+        return RedirectResponse("/signin", status.HTTP_303_SEE_OTHER)
 
 
 app.include_router(app_router)

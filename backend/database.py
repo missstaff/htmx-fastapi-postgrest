@@ -18,15 +18,15 @@ async def setup_database():
     try:
         await conn.execute('''CREATE SCHEMA IF NOT EXISTS api;''')
         await conn.execute('''CREATE TABLE IF NOT EXISTS api.users (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            display_name VARCHAR(100),
-            email VARCHAR(100) NOT NULL UNIQUE,
-            salt VARCHAR(255) NOT NULL,
-            password VARCHAR(255) NOT NULL,
-            disabled BOOLEAN DEFAULT FALSE,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            user_id VARCHAR(36) PRIMARY KEY,
+            user_name VARCHAR(100) NOT NULL,
+            user_display_name VARCHAR(100),
+            user_email VARCHAR(100) NOT NULL UNIQUE,
+            user_salt VARCHAR(255) NOT NULL,
+            user_password VARCHAR(255) NOT NULL,
+            user_disabled BOOLEAN DEFAULT FALSE,
+            user_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            user_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );''')
     finally:
         await conn.close()

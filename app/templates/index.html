@@ -16,7 +16,7 @@
     </div>
     <div class="navbar-menu">
       <div class="navbar-end">
-        <a class="navbar-item" href="/logout">Logout</a>
+        <a class="navbar-item" hx-post="http://127.0.0.1:8000/auth/user/logout" hx-trigger="on-click">Logout</a>
       </div>
     </div>
   </nav>

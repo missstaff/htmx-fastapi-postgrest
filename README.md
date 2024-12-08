@@ -1,11 +1,12 @@
-# htmx-fastapi-postgrest
+# htmx-python-fastapi-postgrest
 
 ###### Learning how to build a fullstack applications with:
 1. HTMX
-2. Python
-3. FastApi
-4. Pydantic
-5. Postgrest
+2. Bulma CSS
+3. Python
+4. FastApi
+5. Pydantic
+6. Postgrest
 
 ### TO RUN THIS APPLICATION  🏃‍♀️
 - `cd backend`

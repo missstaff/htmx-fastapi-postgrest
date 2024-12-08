@@ -1,7 +1,7 @@
 import os
 import bcrypt
 from dotenv import load_dotenv
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from models.user.user_hashed import UserCreateHashed
@@ -65,3 +65,16 @@ async def user_login(user: UserLogin) -> HTMLResponse:
         return response_json
     else:
         raise HTTPException(status_code=response["status"], detail=response["message"])
+    
+@router.get("/user/logout")
+async def logout(response: Response, request: Request):
+       # Clear cookies
+    response.delete_cookie("user_data")
+    response.delete_cookie("access_token")
+    context = {
+        "request": request,
+        "message": "Logged out successfully"
+    }
+    return templates.TemplateResponse("signin.html", context = context)
+    # Return a JSON response
+    # return JSONResponse(content={"message": "Logged out successfully"})

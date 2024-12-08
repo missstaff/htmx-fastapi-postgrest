@@ -16,7 +16,6 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 async def create_user(user: UserCreateHashed):
     try:
         conn = await asyncpg.connect(DATABASE_URL)
-        print("in controller", user)
         user_data = await conn.execute(
             '''
             INSERT INTO api.users (name, display_name, email, salt, password)
@@ -25,12 +24,12 @@ async def create_user(user: UserCreateHashed):
             user.name, user.display_name, user.email, user.salt, user.hash_password
         )
         await conn.close()
-
         if(user_data):
             return {
                 'user_data': {
                     "display_name": user.display_name,
-                    "email": user.email
+                    "email": user.email,
+                    "disabled": False
                 },
                 "status": 201,
                 "message": "User created successfully"
@@ -58,6 +57,7 @@ async def authenticate_user(user: UserLogin):
                         "user_data": {
                             "display_name": user_data["display_name"],
                             "email": user_data["email"],
+                            "disabled": user_data["disabled"]
                         },
                         "status": 200,
                         "message": "User authenticated successfully"
